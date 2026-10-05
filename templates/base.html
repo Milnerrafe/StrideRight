@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}StrideRight{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename='beforeload.js') }}" as="script">
+    <script src="{{ url_for('static', filename='beforeload.js') }}" ></script>
+
+    <script src="{{ url_for('static', filename='afterload.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+                {% include 'black-and-white-logo.svg' %}
+        </div>
+
+        <div class="links desktop-content">
+            <div class="home-link">Home</div>
+            <div class="shop-link">Shop</div>
+            <div class="shop-link">Follow us</div>
+        </div>
+
+        <div class="filler"></div>
+
+        <!-- For Desktop -->
+        <div class="cart-and-account desktop-content">
+            <div class="saved-button">􀊴Saved</div>
+            <div class="account-button">􀉩Account</div>
+            <div class="cart-button">􀍤Cart</div>
+        </div>
+
+        <!-- For Mobile -->
+        <div class="cart-and-account mobile-content hiden">
+            <div class="cart-button">􀍤</div>
+            <div class="menu-button">
+                {% include 'menu-icon.svg' %}
+            </div>
+        </div>
+    </header>
+
+    <div id="shop-drop-down">
+        Hi Bro
+    </div>
+
+    <main>
+        {% block content %}
+        <div id="error-page">
+            <h1>Oh no, it looks like something's gone wrong!</h1>
+            <p>
+                Sorry for the inconvenience
+            </p>
+            <a href="/">Go Home</a>
+        </div>
+        {% endblock %}
+    </main>
+</body>
+</html>

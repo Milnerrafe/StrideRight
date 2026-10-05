@@ -1,0 +1,44 @@
+<!-- The original element remains unchanged -->
+<img id="myImage" src="https://images.unsplash.com/photo-1787862923876-87fcfbd8eac3?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dynamic Visual" width="400" height="300" style="display: block;">
+<button id="changeImgBtn">Animate Image</button>
+
+<script>
+  const imageElement = document.getElementById('myImage');
+  const button = document.getElementById('changeImgBtn');
+  let newImageUrl = "https://plus.unsplash.com/premium_photo-1776661561367-93c4100618d6?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8";
+
+  button.addEventListener('mouseover', () => {
+    // 1. Preload the new image in JavaScript memory first
+    const imgPreloader = new Image();
+    imgPreloader.src = newImageUrl;
+
+    // 2. Only trigger the animation once the asset is ready
+    imgPreloader.onload = () => {
+    let newImageUrl = "https://plus.unsplash.com/premium_photo-1776661561367-93c4100618d6?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8";
+
+      // 3. Fade out and scale down the original image
+      const fadeOut = imageElement.animate([
+        { opacity: 1, transform: 'translateY(0px)' },
+        { opacity: 1, transform: 'translateY(-10px)' }
+      ], {
+        duration: 300,
+        easing: 'ease-in'
+      });
+
+      // 4. Swap the src attribute once hidden
+      fadeOut.onfinish = () => {
+        imageElement.src = newImageUrl;
+        newImageUrl = "https://images.unsplash.com/photo-1787862923876-87fcfbd8eac3?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+
+        // 5. Fade in and scale up the new image
+        imageElement.animate([
+          { opacity: 1, transform: 'translateY(10px)' },
+          { opacity: 1, transform: 'translateY(0px)' }
+        ], {
+          duration: 300,
+          easing: 'ease-out'
+        });
+      };
+    };
+  });
+</script>

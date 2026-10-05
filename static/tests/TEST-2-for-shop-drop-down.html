@@ -1,0 +1,240 @@
+<style>
+
+/* Modern Standard (Firefox and upcoming browsers) */
+html {
+  /* Format: scrollbar-color: [Grabber Color] [Track Color] */
+  scrollbar-color: #888888 transparent;
+  scrollbar-width: thin;
+}
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;  /* Width of vertical scrollbar */
+  height: 8px; /* Height of horizontal scrollbar */
+}
+
+/* The Track (The white background area) */
+::-webkit-scrollbar-track {
+  background: transparent; /* Makes the track invisible */
+}
+
+/* The Grabber (The draggable handle) */
+::-webkit-scrollbar-thumb {
+  background: #888888;    /* Color of the grabber */
+  border-radius: 4px;     /* Rounds the corners of the grabber */
+}
+
+/* Optional: Change grabber color on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.div1 {
+    grid-column: span 2 / span 2;
+    background: #F42300
+}
+
+.div2 {
+    grid-column: span 3 / span 3;
+    grid-column-start: 3;
+    background: #F42300
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row: span 7 / span 7;
+    grid-row-start: 2;
+        background: #F42300;
+    overflow: auto;
+}
+
+.div4 {
+    grid-column: span 3 / span 3;
+    grid-row: span 7 / span 7;
+    grid-column-start: 3;
+    grid-row-start: 2;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.70) 100%), url(https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Football_in_Bloomington%2C_Indiana%2C_1995.jpg/960px-Football_in_Bloomington%2C_Indiana%2C_1995.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail) lightgray 50% / cover no-repeat;
+}
+
+#shop-drop-down {
+    --target-height: 50px;
+    position: fixed;
+    z-index: 900;
+    top: var(--target-height);
+    left: 0;
+    right: 0;
+    background: #C9C9C9;
+    height: 683px;
+    padding: 50px 40px 0px 40px
+}
+
+.link {
+color: #000;
+font-family: "SF Pro";
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+#more-links {
+display: flex;
+flex-direction: column;
+gap: 5px
+}
+
+#links {
+display: flex;
+flex-direction: row;
+gap: 20px
+}
+
+#links2 {
+margin: 21px 0px;
+display: flex;
+flex-direction: row;
+gap: 50px
+}
+
+
+#sports {
+display: flex;
+flex-direction: column;
+gap: 0px
+}
+
+.lable {
+color: #000;
+font-family: "SF Pro";
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+margin: 0px 0px 5px 0px;
+}
+
+.sportslink {
+color: #000;
+font-family: "SF Pro";
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin: 0px 0px -4px 0px;
+z-index: 900;
+}
+
+#sport {
+flex-grow: 1;
+height: 562px;
+
+}
+
+.filler {
+
+	flex-grow: 1
+
+}
+
+
+
+#cursor {
+
+--target-left: 0px;
+--target-top: 0px;
+--target-width: 0px;
+--target-height: 0px;
+
+
+position: fixed;
+height: var(--target-height);
+width: var(--target-width);
+top: var(--target-top);
+left: var(--target-left);
+background: #fff;
+z-index: 900;
+
+}
+
+
+</style>
+
+<div id="shop-drop-down">
+
+<div class="parent">
+    <div class="div1">
+
+
+    </div>
+    <div class="div2">2</div>
+    <div class="div3">
+	    <div id="links">
+			<div id="more-links">
+				<div class="link">Account</div>
+				<div class="link">Saved</div>
+				<div class="link">Compare</div>
+				<div class="link">Cart</div>
+				<div class="link">About</div>
+				<div class="link">Blog</div>
+			</div>
+
+			<div class="filler"></div>
+
+			<div id="sports">
+			<div id="cursor"></div>
+			    <div class="lable">Sports:</div>
+				<div id="football" class="sportslink">Football</div>
+				<div class="sportslink">AFL</div>
+				<div class="sportslink">Basketball</div>
+				<div class="sportslink">Tennis</div>
+				<div class="sportslink">Ice Skating</div>
+				<div class="sportslink">Bowling</div>
+				<div class="sportslink">Netball</div>
+				<div class="sportslink">Cricket</div>
+				<div class="sportslink">Volleyball</div>
+				<div class="sportslink">Hockey</div>
+			</div>
+		</div>
+	</div>
+    <div class="div4">4</div>
+</div>
+</div>
+
+<script>
+const footballel = document.querySelector('#football')
+
+const range = document.createRange();
+
+range.selectNodeContents(footballel);
+
+const football = range.getBoundingClientRect();
+
+const cursor = document.querySelector('#cursor');
+
+cursor.style.setProperty('--target-height', `${football.height}px`)
+
+cursor.style.setProperty('--target-width', `${football.width}px`)
+
+cursor.style.setProperty('--target-top', `${football.top}px`)
+
+cursor.style.setProperty('--target-left', `${football.left}px`)
+
+
+
+
+
+
+
+
+
+</script>
