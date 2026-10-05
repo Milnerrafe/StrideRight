@@ -166,6 +166,24 @@ z-index: 900;
 
 }
 
+#x {
+
+--target-left: 0px;
+--target-top: 0px;
+--target-width: 0px;
+--target-height: 0px;
+
+
+position: fixed;
+height: var(--target-height);
+width: var(--target-width);
+top: var(--target-top);
+left: var(--target-left);
+background: #fff;
+z-index: 900;
+
+}
+
 
 </style>
 
@@ -195,7 +213,7 @@ z-index: 900;
 			    <div class="lable">Sports:</div>
 				<div id="football" class="sportslink">Football</div>
 				<div class="sportslink">AFL</div>
-				<div class="sportslink">Basketball</div>
+				<div id="basketball" class="sportslink">Basketball</div>
 				<div class="sportslink">Tennis</div>
 				<div class="sportslink">Ice Skating</div>
 				<div class="sportslink">Bowling</div>
@@ -208,29 +226,94 @@ z-index: 900;
 	</div>
     <div class="div4">4</div>
 </div>
+
+
+<button>Hi</button>
+
 </div>
 
 <script>
+
+let shopDropdownopen = true
+
+function animate(timestamp) {
+  const footballel = document.querySelector('#football');
+
+  const range = document.createRange();
+  range.selectNodeContents(footballel);
+  const football = range.getBoundingClientRect();
+  const cursor = document.querySelector('#cursor');
+  const container = document.querySelector('.div3').getBoundingClientRect();
+
+  const widthDifference = football.right - document.querySelector('.div3').getBoundingClientRect().right;
+
+
+  const x = document.querySelector('#x');
+
+  console.log("football.width " + `${football.width}`)
+  console.log("football.width - widthDifference " + `${football.width - widthDifference}`)
+
+  x.style.setProperty('--target-height', `${football.height}px`);
+  x.style.setProperty('--target-width', `${widthDifference}px`);
+  x.style.setProperty('--target-top', `${document.querySelector('.div3').getBoundingClientRect().top}px`);
+  x.style.setProperty('--target-left', `${document.querySelector('.div3').getBoundingClientRect().right}px`);
+
+  let cursorWidth = football.width
+
+  if (football.right > document.querySelector('.div3').getBoundingClientRect().right ) {
+     cursorWidth = football.width - widthDifference
+   };
+
+
+  cursor.style.setProperty('--target-height', `${football.height}px`);
+  cursor.style.setProperty('--target-width', `${cursorWidth}px`);
+  cursor.style.setProperty('--target-top', `${football.top}px`);
+  cursor.style.setProperty('--target-left', `${football.left}px`);
+
+  console.log("x and cursor diff" + (cursor.getBoundingClientRect().right - x.getBoundingClientRect().right))
+
+  if (shopDropdownopen) {
+    requestAnimationFrame(animate);
+  }
+
+}
+
+requestAnimationFrame(animate);
+
 const footballel = document.querySelector('#football')
 
 const range = document.createRange();
-
 range.selectNodeContents(footballel);
-
 const football = range.getBoundingClientRect();
-
 const cursor = document.querySelector('#cursor');
 
-cursor.style.setProperty('--target-height', `${football.height}px`)
-
-cursor.style.setProperty('--target-width', `${football.width}px`)
-
-cursor.style.setProperty('--target-top', `${football.top}px`)
-
-cursor.style.setProperty('--target-left', `${football.left}px`)
+cursor.style.setProperty('--target-height', `${football.height}px`);
+cursor.style.setProperty('--target-width', `${football.width}px`);
+cursor.style.setProperty('--target-top', `${football.top}px`);
+cursor.style.setProperty('--target-left', `${football.left}px`);
 
 
 
+
+
+
+
+
+
+
+document.querySelector('button').addEventListener('click', () => {
+
+const basketballel = document.querySelector('#basketball')
+const range2 = document.createRange();
+range2.selectNodeContents(basketballel);
+const basketball = range2.getBoundingClientRect();
+cursor.style.setProperty('--target-height', `${basketball.height}px`)
+cursor.style.setProperty('--target-width', `${basketball.width}px`)
+cursor.style.setProperty('--target-top', `${basketball.top}px`)
+cursor.style.setProperty('--target-left', `${basketball.left}px`)
+
+
+});
 
 
 
