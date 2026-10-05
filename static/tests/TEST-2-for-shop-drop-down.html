@@ -41,20 +41,17 @@ html {
 
 .div1 {
     grid-column: span 2 / span 2;
-    background: #F42300
 }
 
 .div2 {
     grid-column: span 3 / span 3;
     grid-column-start: 3;
-    background: #F42300
 }
 
 .div3 {
     grid-column: span 2 / span 2;
     grid-row: span 7 / span 7;
     grid-row-start: 2;
-        background: #F42300;
     overflow: auto;
 }
 
@@ -85,6 +82,7 @@ font-size: 40px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+cursor: pointer;
 }
 
 #more-links {
@@ -132,6 +130,7 @@ font-weight: 400;
 line-height: normal;
 margin: 0px 0px -4px 0px;
 z-index: 900;
+cursor: pointer;
 }
 
 #sport {
@@ -161,28 +160,20 @@ height: var(--target-height);
 width: var(--target-width);
 top: var(--target-top);
 left: var(--target-left);
-background: #fff;
+background: #000;
 z-index: 900;
 
 }
 
-#x {
-
---target-left: 0px;
---target-top: 0px;
---target-width: 0px;
---target-height: 0px;
-
-
-position: fixed;
-height: var(--target-height);
-width: var(--target-width);
-top: var(--target-top);
-left: var(--target-left);
-background: #fff;
-z-index: 900;
-
+#bigtext {
+    color: #FFF;
+    font-family: "SF Pro";
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
+
 
 
 </style>
@@ -190,11 +181,8 @@ z-index: 900;
 <div id="shop-drop-down">
 
 <div class="parent">
-    <div class="div1">
-
-
-    </div>
-    <div class="div2">2</div>
+    <div class="div1"></div>
+    <div class="div2"></div>
     <div class="div3">
 	    <div id="links">
 			<div id="more-links">
@@ -209,7 +197,7 @@ z-index: 900;
 			<div class="filler"></div>
 
 			<div id="sports">
-			<div id="cursor"></div>
+			    <div id="cursor"></div>
 			    <div class="lable">Sports:</div>
 				<div id="football" class="sportslink">Football</div>
 				<div class="sportslink">AFL</div>
@@ -224,7 +212,11 @@ z-index: 900;
 			</div>
 		</div>
 	</div>
-    <div class="div4">4</div>
+    <div class="div4">
+
+        <div id="bigtext"> ... </div>
+
+    </div>
 </div>
 
 
@@ -235,9 +227,58 @@ z-index: 900;
 <script>
 
 let shopDropdownopen = true
+let target = '#football'
+let pretarget = ''
+let activeAnimation = null;
+let cooldown = 0
 
 function animate(timestamp) {
-  const footballel = document.querySelector('#football');
+
+  if (cooldown > 0) {
+    cooldown = cooldown - 0.01
+  }
+
+  const footballel = document.querySelector(target);
+
+
+
+  if (target !== pretarget) {
+    try {
+      document.querySelector(pretarget).style.color = "#000"
+      const bigtext = document.querySelector('#bigtext')
+
+      if (cooldown > 0) {
+        bigtext.textContent = footballel.textContent
+      } else {
+        cooldown = 1
+        const activeAnimation = bigtext.animate([
+          { opacity: 1, transform: 'translateY(0px)' },
+          { opacity: 0, transform: 'translateY(-10px)' }
+        ], {
+          duration: 300,
+          easing: 'ease-in'
+        });
+
+        activeAnimation.onfinish = () => {
+          bigtext.textContent = footballel.textContent
+
+          bigtext.animate([
+            { opacity: 0, transform: 'translateY(10px)' },
+            { opacity: 1, transform: 'translateY(0px)' }
+          ], {
+            duration: 300,
+            easing: 'ease-out'
+         }); }
+      }
+
+    } catch (error) {
+      // No need to handle error; Sometimes pretarget will be empty and that's fine.
+    } finally {
+      pretarget = target
+    }
+  };
+
+  footballel.style.color = "#fff"
 
   const range = document.createRange();
   range.selectNodeContents(footballel);
@@ -246,55 +287,23 @@ function animate(timestamp) {
   const container = document.querySelector('.div3').getBoundingClientRect();
 
   const widthDifference = football.right - document.querySelector('.div3').getBoundingClientRect().right;
-
-
-  const x = document.querySelector('#x');
-
-  console.log("football.width " + `${football.width}`)
-  console.log("football.width - widthDifference " + `${football.width - widthDifference}`)
-
-  x.style.setProperty('--target-height', `${football.height}px`);
-  x.style.setProperty('--target-width', `${widthDifference}px`);
-  x.style.setProperty('--target-top', `${document.querySelector('.div3').getBoundingClientRect().top}px`);
-  x.style.setProperty('--target-left', `${document.querySelector('.div3').getBoundingClientRect().right}px`);
-
   let cursorWidth = football.width
 
   if (football.right > document.querySelector('.div3').getBoundingClientRect().right ) {
      cursorWidth = football.width - widthDifference
    };
 
-
   cursor.style.setProperty('--target-height', `${football.height}px`);
   cursor.style.setProperty('--target-width', `${cursorWidth}px`);
   cursor.style.setProperty('--target-top', `${football.top}px`);
   cursor.style.setProperty('--target-left', `${football.left}px`);
 
-  console.log("x and cursor diff" + (cursor.getBoundingClientRect().right - x.getBoundingClientRect().right))
-
   if (shopDropdownopen) {
     requestAnimationFrame(animate);
   }
-
 }
 
 requestAnimationFrame(animate);
-
-const footballel = document.querySelector('#football')
-
-const range = document.createRange();
-range.selectNodeContents(footballel);
-const football = range.getBoundingClientRect();
-const cursor = document.querySelector('#cursor');
-
-cursor.style.setProperty('--target-height', `${football.height}px`);
-cursor.style.setProperty('--target-width', `${football.width}px`);
-cursor.style.setProperty('--target-top', `${football.top}px`);
-cursor.style.setProperty('--target-left', `${football.left}px`);
-
-
-
-
 
 
 
@@ -303,21 +312,23 @@ cursor.style.setProperty('--target-left', `${football.left}px`);
 
 document.querySelector('button').addEventListener('click', () => {
 
-const basketballel = document.querySelector('#basketball')
-const range2 = document.createRange();
-range2.selectNodeContents(basketballel);
-const basketball = range2.getBoundingClientRect();
-cursor.style.setProperty('--target-height', `${basketball.height}px`)
-cursor.style.setProperty('--target-width', `${basketball.width}px`)
-cursor.style.setProperty('--target-top', `${basketball.top}px`)
-cursor.style.setProperty('--target-left', `${basketball.left}px`)
-
+  target = '#basketball'
 
 });
 
 
+const sports = document.querySelectorAll('.sportslink');
 
+sports.forEach(sport => {
+  sport.id = sport.textContent.replaceAll(' ', '').toUpperCase()
+  // sport.addEventListener('mouseenter', (event) => {
+  //   target = `#${sport.id}`
+  // });
 
+  sport.addEventListener('click', (event) => {
+    target = `#${sport.id}`
+  });
+});
 
 
 </script>
