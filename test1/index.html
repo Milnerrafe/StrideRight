@@ -5,6 +5,15 @@
 
 <style>
 
+/* Apply the custom animation to the old and new page states */
+::view-transition-old(root) {
+  animation: 0.4s ease-in both move-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.4s ease-in both move-in;
+}
+
 @font-face {
   font-family: 'SF Pro';
   font-style: normal;
@@ -91,7 +100,7 @@ html {
     right: 0;
     background: #C9C9C9;
     height: 683px;
-    padding: 50px 40px 0px 40px
+    padding: 50px 40px 0px 40px;
 }
 
 .link {
@@ -148,8 +157,8 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
 margin: 0px 0px -4px 0px;
-z-index: 900;
 cursor: pointer;
+z-index: 900;
 }
 
 #sport {
@@ -174,13 +183,17 @@ height: 562px;
 --target-height: 0px;
 
 
-position: fixed;
+position: absolute;
 height: var(--target-height);
 width: var(--target-width);
-top: var(--target-top);
-left: var(--target-left);
+transform: translate(var(--target-left), var(--target-top));
+
+/*top: var(--target-top);
+left: var(--target-left);*/
 background: #000;
+
 z-index: 900;
+
 
 }
 
@@ -220,6 +233,8 @@ z-index: 900;
 
 
 </style>
+
+
 
 <div id="shop-drop-down">
 
@@ -278,6 +293,7 @@ z-index: 900;
 </div>
 
 <script>
+
 
 let shopDropdownopen = true
 let target = '#football'
@@ -339,17 +355,25 @@ function animate(timestamp) {
   const cursor = document.querySelector('#cursor');
   const container = document.querySelector('.div3').getBoundingClientRect();
 
-  const widthDifference = football.right - document.querySelector('.div3').getBoundingClientRect().right;
+  const RightwidthDifference = football.right - document.querySelector('.div3').getBoundingClientRect().right;
+  const LeftwidthDifference = document.querySelector('.div3').getBoundingClientRect().left - football.left;
+
   let cursorWidth = football.width
 
   if (football.right > document.querySelector('.div3').getBoundingClientRect().right ) {
-     cursorWidth = football.width - widthDifference
+     cursorWidth = football.width - RightwidthDifference
    };
 
-  cursor.style.setProperty('--target-height', `${football.height}px`);
-  cursor.style.setProperty('--target-width', `${cursorWidth}px`);
-  cursor.style.setProperty('--target-top', `${football.top}px`);
-  cursor.style.setProperty('--target-left', `${football.left}px`);
+  if (document.querySelector('.div3').getBoundingClientRect().left > football.left) {
+     cursorWidth = football.width - LeftwidthDifference
+   };
+
+
+
+  cursor.style.setProperty('--target-height', `${football.height / cursor.currentCSSZoom}px`);
+  cursor.style.setProperty('--target-width', `${cursorWidth / cursor.currentCSSZoom}px`);
+  cursor.style.setProperty('--target-top', `${(football.top - document.querySelector('#sports').getBoundingClientRect().top) / cursor.currentCSSZoom}px`);
+
 
   if (shopDropdownopen) {
     requestAnimationFrame(animate);
@@ -357,6 +381,11 @@ function animate(timestamp) {
 }
 
 requestAnimationFrame(animate);
+
+document.querySelector('.div3').addEventListener('scroll', (event) => {
+  document.querySelector('#cursor').style.setProperty('--target-left', `0px`);
+  document.querySelector('#cursor').style.setProperty('--target-left', `${(document.querySelector('#sports').getBoundingClientRect().left - cursor.getBoundingClientRect().left) / cursor.currentCSSZoom}px`);
+});
 
 
 
