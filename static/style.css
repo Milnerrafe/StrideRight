@@ -7,16 +7,6 @@ main {
     margin-top: var(--target-height);
 }
 
-#shop-drop-down {
-    --target-height: 50px;
-    position: fixed;
-    z-index: 900;
-    top: var(--target-height);
-    left: 0;
-    right: 0;
-    background: #C9C9C9;
-    height: 500px;
-}
 
 #mobile-menu {
     --target-height: 50px;
@@ -55,6 +45,7 @@ header {
     background: #000;
     color: #fff;
     box-shadow: 0px 4px 10.4px 1px rgba(0, 0, 0, 0.25);
+    z-index: 9999999999999;
 }
 
 
@@ -68,12 +59,24 @@ header .links {
     flex-direction: row;
     gap: 15px;
     align-items: center;
-    padding: 20px;
+    padding: 0px 20px;
     color: #FFF;
+    height: 100%;
 
     text-align: center;
     font-family: "SF Pro";
     font-size: 16px;
+}
+
+header .links .linktext {
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+    align-content: center;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 header .filler {
@@ -97,4 +100,253 @@ header .cart-button {
     border-radius: 8px;
     background: #FFF;
     color: #000;
+}
+
+
+
+/*Dropdowncode*/
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.div1 {
+    grid-column: span 2 / span 2;
+    overflow: auto;
+    display: flex;
+}
+
+.div2 {
+    grid-column: span 3 / span 3;
+    grid-column-start: 3;
+    display: flex;
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row: span 7 / span 7;
+    grid-row-start: 2;
+    overflow: auto;
+}
+
+.div4 {
+    grid-column: span 3 / span 3;
+    grid-row: span 7 / span 7;
+    grid-column-start: 3;
+    grid-row-start: 2;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.70) 100%), url(/image.webp) lightgray 50% / cover no-repeat;
+}
+
+#shop-drop-down {
+    --target-height: 0px;
+    position: fixed;
+    z-index: 900;
+    top: var(--target-height);
+    left: 0;
+    right: 0;
+    background: #C9C9C9;
+    height: 683px;
+    padding: 50px 40px 0px 40px;
+    zoom: 0.75;
+}
+
+
+
+
+.link {
+color: #000;
+font-family: "SF Pro";
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+cursor: pointer;
+}
+
+#more-links {
+display: flex;
+flex-direction: column;
+gap: 5px
+}
+
+#links {
+display: flex;
+flex-direction: row;
+gap: 20px
+}
+
+#links2 {
+margin: 21px 0px;
+display: flex;
+flex-direction: row;
+gap: 50px
+}
+
+
+#sports {
+display: flex;
+flex-direction: column;
+gap: 0px
+}
+
+.lable {
+color: #000;
+font-family: "SF Pro";
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+margin: 0px 0px 5px 0px;
+}
+
+.sportslink {
+color: #000;
+font-family: "SF Pro";
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+margin: 0px 0px -4px 0px;
+cursor: pointer;
+z-index: 900;
+}
+
+#sport {
+flex-grow: 1;
+height: 562px;
+
+}
+
+.filler {
+
+	flex-grow: 1
+
+}
+
+
+
+#cursor {
+
+--target-left: 0px;
+--target-top: 0px;
+--target-width: 0px;
+--target-height: 0px;
+
+
+position: absolute;
+height: var(--target-height);
+width: var(--target-width);
+transform: translate(var(--target-left), var(--target-top));
+
+/*top: var(--target-top);
+left: var(--target-left);*/
+background: #000;
+
+z-index: 900;
+
+
+}
+
+#bigtext {
+    color: #FFF;
+    font-family: "SF Pro";
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#hovermode {
+    display: flex;
+    gap: 50px;
+
+    color: #000;
+    font-family: "SF Pro";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.infotext {
+    margin-top: 20px;
+    color: #000;
+    font-family: "SF Pro";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 700px;
+
+}
+
+
+.sliding-segmented-control {
+    border-radius: 10px;
+    background: #000;
+    height: 100%;
+    width: max-content;
+    position: relative;
+    display: flex;
+    min-width: 100%;
+}
+
+.sliding-segmented-control .item {
+    color: #fff;
+    font-family: "SF Pro";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: normal;
+    cursor: pointer;
+    z-index: 1;
+    text-align: center;
+    flex-grow: 1;
+    height: 100%;
+    align-content: center;
+}
+
+.sliding-segmented-control .selected {
+    --padding: 4px;
+    --translate: 0%;
+    background-color: #fff;
+    position: absolute;
+    top: var(--padding);
+    bottom: var(--padding);
+    left: var(--padding);
+    width: calc(50% - 4px);
+    border-radius: calc(10px - var(--padding));
+    transform: translateX(var(--translate));
+    transition: transform 0.3s cubic-bezier(0.7, 0, 0, 0.7);
+}
+
+
+#SearchBox {
+    border-radius: 10px;
+    border: 4px solid #000;
+    background: #fff;
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    color: #000;
+    font-family: "SF Pro";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    padding: 0px 0px 0px 7px;
+}
+
+#SearchForm {
+    all: unset;
+    display: flex;
+    flex-grow: 1;
+}
+
+.link:hover {
+    color: #3f3f3f;
 }
