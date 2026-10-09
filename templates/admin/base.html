@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}StrideRight{% endblock %}</title>
+    <link rel="preload" href="{{ url_for('static', filename='jslibraries/marked.js') }}" as="script">
+    <script src="{{ url_for('static', filename='jslibraries/marked.js') }}"></script>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='admin/favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/style.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename='admin/beforeload.js') }}" as="script">
+    <script src="{{ url_for('static', filename='admin/beforeload.js') }}" ></script>
+
+    <script src="{{ url_for('static', filename='admin/afterload.js') }}" defer></script>
+</head>
+<body>
+    <header>
+
+        <div id="yellow-submarine">Yellow Submarine</div>
+        <div id="admintext">(StrideRight Admin Dashboard)</div>
+
+        <div class="filler"></div>
+
+
+        {% if logedin %}
+            <button id="logout" onclick="logout()">Logout</button>
+        {% endif %}
+
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+</body>
+</html>

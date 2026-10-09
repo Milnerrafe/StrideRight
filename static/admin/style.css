@@ -1,0 +1,354 @@
+.hiden {
+    display: none !important;
+}
+
+@font-face {
+  font-family: 'YellowSubmarine';
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url(/static/admin/yellowsubmarine.woff2) format(woff2);
+}
+
+html {
+    font-family: "SF Pro";
+}
+
+main {
+    --target-height: 50px;
+    --padding: 20px;
+    margin-top: var(--target-height);
+    padding: var(--padding) var(--padding) 0px var(--padding);
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding: 5px 5px 5px 15px;
+
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 50px;
+    background: #3e8cc6;
+    color: #fff;
+    box-shadow: 0px 4px 10.4px 1px rgba(0, 0, 0, 0.25);
+    z-index: 9999999999999;
+}
+
+header #admintext {
+    font-family: "SF Pro";
+    font-size: 16px;
+}
+
+header #yellow-submarine {
+    font-family: "YellowSubmarine";
+    font-size: 24px;
+    color: #f8de4b;
+}
+
+.filler {
+    flex-grow: 1;
+}
+
+header button {
+  background-color: #2e6ba0;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+header button:hover {
+  background-color: #244473;
+}
+
+header button:active {
+  transform: scale(0.98);
+}
+
+#login-container {
+    height: calc(100vh - (var(--target-height) + var(--padding)));
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+
+#login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 0.5px solid #000;
+    width: 300px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+#login #title {
+    font-size: 24px;
+}
+
+#login #passcode {
+    position: relative;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px 20px;
+}
+
+
+#login #submit{
+    background-color: #2e6ba0;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center
+}
+
+#login #submit:hover {
+  background-color: #244473;
+}
+
+#login #submit:active {
+  transform: scale(0.98);
+}
+
+
+#login #wrongpassword {
+  color: #b7392b;
+  font-size: 16px;
+}
+
+.blue-meanie {
+    font-family: "SF Pro rounded";
+    color: #0b218b;
+    font-weight: 900;
+}
+
+.productstable {
+    margin: 20px 0px;
+    width: 100%;
+}
+
+.productstable .description {
+    text-align: left;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+}
+
+.productstable .description .descriptioncontent{
+  zoom: 0.75;
+}
+
+.productstable .description .container {
+    padding: 10px;
+    overflow: auto;
+    text-align: left;
+    vertical-align: top;
+    max-height: 127px;
+}
+
+.productstable .nocontent {
+    padding: 10px;
+}
+
+
+
+
+.productstable .extra-data {
+    overflow-y: auto;
+    text-align: left;
+    vertical-align: top;
+}
+
+.productstable p, h1, h3, h3, h4, h5  {
+    margin-top: 0px;
+}
+
+.productstable table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.productstable .tiny {
+    width: 25px;
+}
+
+.productstable .small {
+    width: 80px;
+}
+
+.productstable .medium {
+    width: 200px;
+}
+
+.productstable .center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+.productstable table, th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.productstable tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.productstable caption {
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+
+.productstable caption .captionholder{
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+}
+
+.productstable caption .new{
+    color: #3e8cc6;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.productstable caption .new:hover{
+    color: #3e6a9c;
+}
+
+.productstable tfoot {
+    background-color: #f8de4b;
+    text-align: left;
+    color: #000;
+}
+
+.productstable thead {
+    background-color: #3e8cc6;
+    text-align: left;
+    color: #fff;
+}
+
+.productstable table {
+    border-collapse: collapse;
+}
+
+.productstable .actions div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.productstable .variants {
+    padding: 0px;
+}
+
+.productstable .variants .container{
+    overflow-x: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.productvariant {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 10px 0px 10px 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    max-width: 180px;
+}
+
+.productvariant .size .sizes {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+    font-weight: 300;
+}
+
+.productvariant .size .sizes .selected{
+    font-weight: 700;
+    color: #3e8cc6;;
+}
+
+ .size {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.productstable .hight120 {
+    height: 120px;
+}
+
+.productvariant .size .gender{
+    font-weight: 600;
+}
+
+.productvariant .priceandcolour {
+    margin-bottom: 5px;
+    display: flex;
+    gap: 3px;
+}
+
+.productvariant .priceandcolour .colour .colourball{
+    height: 16px;
+    width: 16px;
+    border-radius: 10000px;
+    border: 1px solid #000;
+    background-color: attr(data-colour type(<color>), #fff);
+}
+
+.productvariant .priceandcolour .colour {
+    display: flex;
+    gap: 3px;
+}
+
+
+.productstable .images {
+    padding: 0px;
+}
+
+.productstable .images .container{
+    overflow-x: auto;
+    height: 100%;
+    padding: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.productstable .images .container img{
+    height: 112px;
+    width: auto;
+    object-fit: cover;
+    display: block;
+}

@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Yellow Submarine - Login{% endblock %}
+
+{% block content %}
+
+    <div id="login-container">
+        <form id="login">
+            <div id="wrongpassword" class="hiden"> That passcode is incorrect. You're not a <span class="blue-meanie">blue meanie</span>, are you? Check the server terminal for the correct passcode.</div>
+            <label id="title" for="passcode">Enter the server passcode from terminal:</label>
+            <input type="text" maxlength="4" class="wrongpasscode" name="passcode" id="passcode" />
+            <input type="submit" value="Login" id="submit" />
+        </form>
+    </div>
+
+    <script>
+
+
+
+    </script>
+
+{% endblock %}

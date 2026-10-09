@@ -55,7 +55,7 @@ document.querySelector('.sliding-segmented-control').addEventListener('click', (
 
 
 
-let shopDropdownopen = true
+let shopDropdownopen = false
 let target = '#FOOTBALL'
 let pretarget = ''
 let activeAnimation = null;

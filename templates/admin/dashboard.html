@@ -1,0 +1,151 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Yellow Submarine - Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="productstable">
+        <table>
+          <caption>
+            <div class="captionholder">
+                <div>Products:</div>
+                <div class="filler"></div>
+                <div class="new">􀅼New</div>
+            </div>
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" class="tiny">ID</th>
+              <th scope="col" class="small">Name</th>
+              <th scope="col" class="small">Type</th>
+              <th scope="col" class="medium">Description</th>
+              <th scope="col" class="small">Extra Data</th>
+              <th scope="col" class="medium">Colors, Sizes, Price</th>
+              <th scope="col" class="medium">Images</th>
+              <th scope="col" class="small">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in data["products"] %}
+                <tr>
+                    <td class="id center">{{ product["id"] }}</td>
+                    <td class="name center">{{ product["name"] }}</td>
+                    <td class="type center">{{ product["type"] }}</td>
+                    <td class="description">
+                        <div class="container">
+                            <div class="descriptioncontent">{{ product["description"] }}</div>
+                        </div>
+                    </td>
+                    <td class="extra-data">{{ product["extradata"] }}</td>
+                    <td class="variants">
+                        <div class="container">
+                            {% for variant in product["variants"] %}
+                                <div class="productvariant">
+                                    <div class="priceandcolour">
+                                        <div class="colour">
+                                            <div data-colour='{{ variant["hex"] }}' class="colourball"></div> {{ variant["name"] }}
+                                        </div>
+                                        <div class="filler"></div>
+                                        <div class="price">${{ variant["price"] }}</div>
+                                    </div>
+                                    {% if 'M' in variant %}
+                                        <div class="size">
+                                            <div class="gender">
+                                                M:
+                                            </div>
+                                            <ul class="sizes">
+                                                <li {% if 7 in variant['M'] %}class="selected"{% endif %}>7</li>
+                                                <li {% if 8 in variant['M'] %}class="selected"{% endif %}>8</li>
+                                                <li {% if 9 in variant['M'] %}class="selected"{% endif %}>9</li>
+                                                <li {% if 10 in variant['M'] %}class="selected"{% endif %}>10</li>
+                                                <li {% if 11 in variant['M'] %}class="selected"{% endif %}>11</li>
+                                                <li {% if 12 in variant['M'] %}class="selected"{% endif %}>12</li>
+                                                <li {% if 13 in variant['M'] %}class="selected"{% endif %}>13</li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    {% if 'W' in variant %}
+                                        <div class="size">
+                                            <div class="gender">
+                                                W:
+                                            </div>
+                                            <ul class="sizes">
+                                                <li {% if 6 in variant['W'] %}class="selected"{% endif %}>6</li>
+                                                <li {% if 7 in variant['W'] %}class="selected"{% endif %}>7</li>
+                                                <li {% if 8 in variant['W'] %}class="selected"{% endif %}>8</li>
+                                                <li {% if 9 in variant['W'] %}class="selected"{% endif %}>9</li>
+                                                <li {% if 10 in variant['W'] %}class="selected"{% endif %}>10</li>
+                                                <li {% if 11 in variant['W'] %}class="selected"{% endif %}>11</li>
+                                                <li {% if 12 in variant['W'] %}class="selected"{% endif %}>12</li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    {% if 'U' in variant %}
+                                        <div class="size">
+                                            <div class="gender">
+                                                U:
+                                            </div>
+                                            <ul class="sizes">
+                                                <li {% if 6 in variant['U'] %}class="selected"{% endif %}>6</li>
+                                                <li {% if 7 in variant['U'] %}class="selected"{% endif %}>7</li>
+                                                <li {% if 8 in variant['U'] %}class="selected"{% endif %}>8</li>
+                                                <li {% if 9 in variant['U'] %}class="selected"{% endif %}>9</li>
+                                                <li {% if 10 in variant['U'] %}class="selected"{% endif %}>10</li>
+                                                <li {% if 11 in variant['U'] %}class="selected"{% endif %}>11</li>
+                                                <li {% if 12 in variant['U'] %}class="selected"{% endif %}>12</li>
+                                                <li {% if 13 in variant['U'] %}class="selected"{% endif %}>13</li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    {% if 'size' in variant %}
+                                        <div class="size">
+                                            <div class="gender">
+                                                Size:
+                                            </div>
+                                            <ul class="sizes">
+                                                {% for size in variant["size"] %}
+                                                    <li class="selected">{{ size }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <h2 class="nocontent">No variants for this product</h2>
+                            {% endfor %}
+                                <div class="hight120"></div>
+
+                        </div>
+                    </td>
+                    <td class="images">
+                        <div class="container">
+                            {% for image in product["images"] %}
+                                <img src="{{ image }}" >
+                            {% else %}
+                                <h2 class="nocontent">No Images for this product</h2>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td class="actions center">
+                        <div>
+                            <a href="/admin/product/edit/{{ product[0] }}" >􀈊Edit</a> <a href="/admin/product/delete/{{ product[0] }}">􀈑Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">No products found in the database.</td>
+                </tr>
+            {% endfor %}
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="7">Number of Products:</th>
+              <td>{{ data["products"] | length }}</td>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
+
+{% endblock %}
