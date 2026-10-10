@@ -173,9 +173,6 @@ header button:active {
     padding: 10px;
 }
 
-
-
-
 .productstable .extra-data {
     overflow-y: auto;
     text-align: left;
@@ -351,4 +348,91 @@ header button:active {
     width: auto;
     object-fit: cover;
     display: block;
+}
+
+
+.productstable .hex .colouritem{
+    border-radius: 10px;
+    font-weight: 700;
+    padding: 10px;
+    color: contrast-color(attr(data-colour type(<color>), #fff));
+    background-color: attr(data-colour type(<color>), #fff);
+}
+
+.productstable .hex .container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center
+}
+
+.spacer {
+    height: 50px;
+}
+
+#Colourform {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+#Colourform form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#Colourform .gap{
+    height: 20px
+}
+
+#Colourform input{
+    height: 40px;
+    font-size: 24px;
+}
+
+
+#Colourform .submit {
+  background-color: #2e6ba0;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#Colourform .submit:hover {
+  background-color: #244473;
+}
+
+#Colourform .submit:active {
+  transform: scale(0.98);
+}
+
+#Colourform .cancel{
+    height: 40px;
+    font-size: 24px;
+    text-decoration: none;
+    background-color: #ddd;
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding-block: 1px;
+    padding-inline: 6px;
+    box-sizing: border-box;
+    text-align: center;
+    align-content: center;
+    border: 1px solid #000;
+}
+
+#Colourform .cancel:hover {
+  background-color: #ccc;
+}
+
+#Colourform .cancel:active {
+  transform: scale(0.98);
 }

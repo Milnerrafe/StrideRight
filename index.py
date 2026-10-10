@@ -26,7 +26,7 @@ def admin():
     passcodeCoookie = request.cookies.get('passcode')
 
     if passcodeCoookie and (passcodeCoookie == str(adminpasscode) or passcodeCoookie == adminpasscode):
-        data = {"products" : []}
+        data = {"products" : [], "colours" : []}
 
         for product in cursor.execute("""SELECT * FROM product""").fetchall():
             productobject = {
@@ -83,9 +83,126 @@ def admin():
 
             data["products"].append(productobject)
 
-        print(data)
+        for colour in cursor.execute("""SELECT * FROM colour""").fetchall():
+            colourobject = {
+                "id" : colour[0],
+                "name" : colour[1],
+                "hex" : colour[2],
+            }
+
+            data["colours"].append(colourobject)
+
 
         return render_template("admin/dashboard.html", logedin=True, data=data)
+    else:
+        response = make_response(render_template("admin/login.html", logedin=False), 200)
+        response.set_cookie('passcode', '', expires=0)
+        return response
+
+
+@app.route("/admin/colours/<action>", methods=['GET', 'POST'])
+@app.route("/admin/colours/<action>/<int:id>", methods=['GET', 'POST'])
+def colours(action, id=None):
+    passcodeCoookie = request.cookies.get('passcode')
+
+    supportedactions = ["edit", "delete", "new"]
+    neededid= ["edit", "delete"]
+
+    if passcodeCoookie and (passcodeCoookie == str(adminpasscode) or passcodeCoookie == adminpasscode):
+        if action in supportedactions:
+            if (action in neededid and id) or (action not in neededid):
+                if request.method == 'POST':
+                    if action == "new":
+                        name = request.form.get('colourName')
+                        hex = request.form.get('colourHex')
+
+                        if name and hex:
+                            try:
+                                cursor.execute(f"""
+                                    INSERT INTO colour ("name", "hex")
+                                    VALUES ("{name}", "{hex}");
+                                    """)
+                            except sqlite3.Error as e:
+                                return render_template("admin/error.html", logedin=True, error=f"When trying to add your color, SQLite threw this error: {e}")
+
+                            return redirect(url_for('admin', _anchor=f""":~:text={hex}"""))
+                        else:
+                            return render_template("admin/error.html", logedin=True, error="You did not provide values for name or hex.")
+
+                    if action == "delete":
+                        sure = request.form.get('sure')
+
+                        if sure != "iamsure":
+                            return render_template("admin/error.html", logedin=True, error="Your were not sure, try again")
+
+
+                        try:
+                            cursor.execute(f"""
+                                DELETE FROM colour WHERE id = {id}
+                                """)
+                        except sqlite3.Error as e:
+                            return render_template("admin/error.html", logedin=True, error=f"When trying to delete your color, SQLite threw this error: {e}")
+
+                        return redirect(url_for('admin'))
+
+                    if action == "edit":
+                        name = request.form.get('colourName')
+                        hex = request.form.get('colourHex')
+
+                        if name and hex:
+                            try:
+                                cursor.execute(f"""
+                                    UPDATE colour
+                                    SET hex = "{hex}", name = "{name}"
+                                    WHERE id = {id};
+                                    """)
+                            except sqlite3.Error as e:
+                                return render_template("admin/error.html", logedin=True, error=f"When trying to update your color, SQLite threw this error: {e}")
+
+                            return redirect(url_for('admin', _anchor=f""":~:text={hex}"""))
+                        else:
+                            return render_template("admin/error.html", logedin=True, error="You did not provide values for name or hex.")
+
+
+
+
+                if request.method == 'GET':
+                    if  action == "new":
+                        return render_template("admin/colours.html", logedin=True, action=action, id=id)
+                    if  action == "delete":
+                        try:
+                            colourdata = cursor.execute(f"""
+                                SELECT * FROM colour WHERE id = {id}
+                                """).fetchall()
+                        except sqlite3.Error as e:
+                            return render_template("admin/error.html", logedin=True, error=f"When trying to find your color to delete, SQLite threw this error: {e}")
+
+                        return render_template("admin/colours.html", logedin=True, action=action, id=colourdata[0][0], name=colourdata[0][1], hex=colourdata[0][2])
+                    if  action == "edit":
+                        try:
+                            colourdata = cursor.execute(f"""
+                                SELECT * FROM colour WHERE id = {id}
+                                """).fetchall()
+                        except sqlite3.Error as e:
+                            return render_template("admin/error.html", logedin=True, error=f"When trying to find your color to edit, SQLite threw this error: {e}")
+
+                        try:
+                            return render_template("admin/colours.html", logedin=True, action=action, id=colourdata[0][0], name=colourdata[0][1], hex=colourdata[0][2])
+                        except IndexError as e:
+                             return render_template("admin/error.html", logedin=True, error="SQLite couldn't find your color.")
+
+
+
+
+
+            else:
+                return render_template("admin/error.html", logedin=True, error=f"That action for colour manipulation needs an ID. e.g. /admin/colours/{action}/1")
+
+        else:
+            return render_template("admin/error.html", logedin=True, error="That action for colour manipulation is not supported.")
+
+
+
     else:
         response = make_response(render_template("admin/login.html", logedin=False), 200)
         response.set_cookie('passcode', '', expires=0)
@@ -99,13 +216,6 @@ def closeConnectionBeforeExit():
 @app.route("/")
 def home():
     return render_template("index.html", username="Rafe")
-
-
-
-
-
-
-
 
 
 @app.route("/base")

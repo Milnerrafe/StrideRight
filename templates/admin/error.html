@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Yellow Submarine - Error{% endblock %}
+
+{% block content %}
+    <div id="login-container">
+        <div>
+            <h1>There Has Been an Error: {{ error }}</h1>
+            <a href="/admin" >Go Home</a>
+        </div>
+    </div>
+{% endblock %}

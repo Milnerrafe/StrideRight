@@ -128,7 +128,7 @@
                     </td>
                     <td class="actions center">
                         <div>
-                            <a href="/admin/product/edit/{{ product[0] }}" >􀈊Edit</a> <a href="/admin/product/delete/{{ product[0] }}">􀈑Delete</a>
+                            <a href="/admin/product/edit/{{ product["id"] }}" >􀈊Edit</a> <a href="/admin/product/delete/{{ product["id"] }}">􀈑Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -146,6 +146,60 @@
             </tr>
           </tfoot>
         </table>
+
+        <div class="spacer"></div>
+
+
+        <div class="productstable">
+            <table>
+              <caption>
+                <div class="captionholder">
+                    <div>Colours:</div>
+                    <div class="filler"></div>
+                    <div class="new" id="newColour">􀅼New</div>
+                </div>
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col" class="tiny">ID</th>
+                  <th scope="col" class="small">Name</th>
+                  <th scope="col" class="small">Hex</th>
+                  <th scope="col" class="small">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for colours in data["colours"] %}
+                    {% if colours["hex"] == "None" and colours["name"] == "None" %}
+                    {% else %}
+                        <tr>
+                            <td class="id center">{{ colours["id"] }}</td>
+                            <td class="name center">{{ colours["name"] }}</td>
+                            <td class="hex center" >
+                                <div class="container">
+                                    <div data-colour='{{ colours["hex"] }}' class="colouritem">{{ colours["hex"] }}</div>
+                                </div>
+                            </td>
+                            <td class="actions center">
+                                <div>
+                                    <a href="/admin/colours/edit/{{ colours["id"] }}" >􀈊Edit</a> <a href="/admin/colours/delete/{{ colours["id"] }}">􀈑Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                   {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">No colours found in the database.</td>
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th scope="row" colspan="3">Number of colours:</th>
+                  <td>{{ data["colours"] | length }}</td>
+                </tr>
+              </tfoot>
+            </table>
     </div>
 
 {% endblock %}

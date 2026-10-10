@@ -55,3 +55,16 @@ try {
   console.log(e)
   // Sometimes description won't be there, and that's fine.
 }
+
+
+try {
+  const newColour = document.querySelector('#newColour');
+
+  newColour.addEventListener('click', function () {
+    window.location = "/admin/colours/new"
+  });
+
+} catch(e) {
+  console.log(e)
+  // Sometimes newColour won't be there, and that's fine.
+}

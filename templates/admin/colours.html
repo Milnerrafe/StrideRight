@@ -1,0 +1,56 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Yellow Submarine - Colours {{ action }} {% endblock %}
+
+{% block content %}
+    {% if action == "new" %}
+        <div id="Colourform">
+            <h1>New Colour:</h1>
+            <form action="/admin/colours/new" method="POST" id="">
+                <label id="title" for="colourName">Colour Name:</label>
+                <input type="text" class="colourName" value="" name="colourName" required/>
+
+                <div class="gap"></div>
+
+                <label id="title" for="colourHex">Colour Hex:</label>
+                <input type="color" id="colourHex" name="colourHex" value="#fff" required>
+
+                <div class="gap"></div>
+
+                <input class="submit" type="submit" value="Save" id="submit" />
+                <a class="cancel" href="/admin">Cancel</a>
+            </form>
+        </div>
+    {% elif action == "delete" %}
+        <div id="Colourform">
+            <h1>Are you sure you want to delete the color <span style="background-color: {{ hex }}; color: contrast-color({{ hex }})">{{ name }}</span>?</h1>
+            <form action="/admin/colours/delete/{{ id }}" method="POST" id="">
+                <label id="title" for="colourName">Yes I am sure:</label>
+                <input type="checkbox" name="sure" value="iamsure">
+
+                <div class="gap"></div>
+
+                <input class="submit" type="submit" value="Save" id="submit" />
+                <a class="cancel" href="/admin">Cancel</a>
+            </form>
+        </div>
+    {% elif action == "edit" %}
+    <div id="Colourform">
+        <h1>Edit <span style="background-color: {{ hex }}; color: contrast-color({{ hex }})">{{ name }}</span>:</h1>
+        <form action="/admin/colours/edit/{{ id }}" method="POST" id="">
+            <label id="title" for="colourName">Colour Name:</label>
+            <input type="text" class="colourName" name="colourName" value="{{ name }}" required/>
+
+            <div class="gap"></div>
+
+            <label id="title" for="colourHex">Colour Hex:</label>
+            <input type="color" id="colourHex" name="colourHex" value="{{ hex }}" required>
+
+            <div class="gap"></div>
+
+            <input class="submit" type="submit" value="Save" id="submit" />
+            <a class="cancel" href="/admin">Cancel</a>
+        </form>
+    </div>
+    {% endif %}
+{% endblock %}
