@@ -1,4 +1,4 @@
-{% extends "admin/base.html" %}
+{% extends uitemplate %}
 
 {% block title %}Yellow Submarine - Colours {{ action }} {% endblock %}
 
@@ -13,7 +13,7 @@
                 <div class="gap"></div>
 
                 <label id="title" for="colourHex">Colour Hex:</label>
-                <input type="color" id="colourHex" name="colourHex" value="#fff" required>
+                <input type="color" id="colourHex" name="colourHex" value="#ffffff" required>
 
                 <div class="gap"></div>
 
@@ -30,7 +30,7 @@
 
                 <div class="gap"></div>
 
-                <input class="submit" type="submit" value="Save" id="submit" />
+                <input class="delete" type="submit" value="Delete" id="submit" />
                 <a class="cancel" href="/admin">Cancel</a>
             </form>
         </div>

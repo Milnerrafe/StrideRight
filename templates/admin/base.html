@@ -3,12 +3,13 @@
 <head>
     <title>{% block title %}StrideRight{% endblock %}</title>
     <link rel="preload" href="{{ url_for('static', filename='jslibraries/marked.js') }}" as="script">
+    <link rel="preload" href="{{ url_for('static', filename='jslibraries/htmx.js') }}" as="script">
     <script src="{{ url_for('static', filename='jslibraries/marked.js') }}"></script>
+    <script src="{{ url_for('static', filename='jslibraries/htmx.js') }}"></script>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='admin/favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='admin/style.css') }}">
     <link rel="preload" href="{{ url_for('static', filename='admin/beforeload.js') }}" as="script">
     <script src="{{ url_for('static', filename='admin/beforeload.js') }}" ></script>
-
     <script src="{{ url_for('static', filename='admin/afterload.js') }}" defer></script>
 </head>
 <body>

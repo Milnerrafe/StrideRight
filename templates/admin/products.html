@@ -1,0 +1,184 @@
+{% extends uitemplate %}
+
+{% block title %}Yellow Submarine - Products {{ action }} {% endblock %}
+
+{% block content %}
+    {% if action == "new" %}
+        <div id="imageColor" class="hidden">
+            {% for colours in data["colours"] %}
+                {% if colours["hex"] == "None" and colours["name"] == "None" %}
+                {% else %}
+                  <option value="Colour_{{ colours["id"] }}">{{ colours["name"] }}</option>
+                {% endif %}
+            {% else %}
+            {% endfor %}
+        </div>
+        <div id="Colourform">
+            <div id="Productform">
+            <h1>New Product:</h1>
+                <label id="title" for="productName">Product Name:</label>
+                <input type="text" id="productName" value="" name="productName" required/>
+
+                <div class="gap"></div>
+
+
+                <label id="title" for="productType">Product Type:</label>
+                <select name="productType" id="productType">
+                  <option value="shoe">Shoe</option>
+                  <option value="gear">Gear</option>
+                  <option value="ball">Ball</option>
+                </select>
+
+
+                <div class="gap"></div>
+
+                <label id="title" for="productDescription">Product Description:</label>
+                <textarea name="productDescription" id="productDescription" rows="8">You can use markdown like *bold*,
+#H1
+#H2
+#H3,
+ect.
+                </textarea>
+
+
+                <div class="gap"></div>
+
+
+                <div class="extradataLabel">
+                    <div id="title" >Extra Data:</div>
+                    <div class="filler"></div>
+                    <div class="new" id="newExtradata">􀅼New</div>
+                </div>
+                <div id="productExtradata">
+                </div>
+
+                <div class="gap"></div>
+
+                <div class="extradataLabel">
+                    <div id="title" >Product variants:</div>
+                    <div class="filler"></div>
+                    <div class="new" id="newproductVariant">􀅼New</div>
+                </div>
+                <div id="productVariant"></div>
+
+                <dialog id="colorPicker" closedby="any">
+                  <h2>Pick your variant color or create a new one</h2>
+                  <div id="colourSelector" hx-get="/admin/product/new" hx-trigger="refreshdata" hx-target="#colourSelector" hx-select="#colourSelector"  hx-swap="innerHTML" >
+                        {% for colours in data["colours"] %}
+                            {% if colours["hex"] == "None" and colours["name"] == "None" %}
+                            {% else %}
+                                <div id="DBcolourId_{{ colours["id"] }}" class="colour">
+                                    <div class="colourBall" data-colour='{{ colours["hex"] }}'></div> {{ colours["name"] }} <div class="filler"></div> 􀆊
+                                </div>
+                            {% endif %}
+                        {% else %}
+                               <div class="colour new">
+                              		No colours found in the database.
+                               </div>
+                        {% endfor %}
+
+                              	<div class="colour new" id="newColourDialogueButton">
+                              		<div class="filler"></div>
+                              		New Colour 􀅼
+                              	</div>
+                  </div>
+                </dialog>
+
+                <dialog id="newColourDialogue" closedby="any">
+                  <iframe id="newColourDialogueIframe" src="/admin/colours/new?uienabled=false"></iframe>
+                </dialog>
+
+                <div class="gap"></div>
+
+                <label id="title" for="productSport">Product Sport:</label>
+                <select class="whichGroups" name="productSport" id="productSport"  multiple size="1">
+                    {% for sport in data["sports"] %}
+                        {% if sport["name"] == "None" %}
+                        {% else %}
+                            <option value="Sport_{{ sport["id"] }}">{{ sport["icon"] }}{{ sport["name"] }}</option>
+                        {% endif %}
+                    {% else %}
+                    {% endfor %}
+                </select>
+
+                <div class="gap"></div>
+
+
+                <label id="title" for="productVibe">Product Vibe:</label>
+                <select  class="whichGroups" name="productVibe" id="productVibe"  multiple size="1">
+                    {% for vibe in data["vibes"] %}
+                        {% if vibe["name"] == "None" %}
+                        {% else %}
+                            <option value="Vibe_{{ vibe["id"] }}">{{ vibe["icon"] }}{{ vibe["name"] }}</option>
+                        {% endif %}
+                    {% else %}
+                    {% endfor %}
+                </select>
+
+                <div class="gap"></div>
+
+
+                <label id="title" for="productCategory">Product Vibe:</label>
+                <select class="whichGroups" name="productCategory" id="productCategory"  multiple size="1">
+                    {% for category in data["categories"] %}
+                        {% if category["name"] == "None" %}
+                        {% else %}
+                            <option value="Category_{{ category["id"] }}">{{ category["icon"] }}{{ category["name"] }}</option>
+                        {% endif %}
+                    {% else %}
+                    {% endfor %}
+                </select>
+
+                <div class="gap"></div>
+
+                <div class="extradataLabel">
+                    <div id="title" >Product Images:</div>
+                    <div class="filler"></div>
+                    <div class="new" id="newproductImage">􀅼New</div>
+                </div>
+                <div id="productImage"></div>
+
+                <dialog id="newImageDialogue" closedby="any">
+                  <iframe id="newImageDialogueIframe" src="/admin/uploadimage?uienabled=false"></iframe>
+                </dialog>
+
+
+                <div class="gap"></div>
+
+                <button class="submit" id="submit" >Save</button>
+                <a class="cancel" href="/admin">Cancel</a>
+            </div>
+        </div>
+    {% elif action == "delete" %}
+        <div id="Colourform">
+            <h1>Are you sure you want to delete the color <span style="background-color: {{ hex }}; color: contrast-color({{ hex }})">{{ name }}</span>?</h1>
+            <form action="/admin/colours/delete/{{ id }}" method="POST" id="">
+                <label id="title" for="colourName">Yes I am sure:</label>
+                <input type="checkbox" name="sure" value="iamsure">
+
+                <div class="gap"></div>
+
+                <input class="submit" type="submit" value="Save" id="submit" />
+                <a class="cancel" href="/admin">Cancel</a>
+            </form>
+        </div>
+    {% elif action == "edit" %}
+    <div id="Colourform">
+        <h1>Edit <span style="background-color: {{ hex }}; color: contrast-color({{ hex }})">{{ name }}</span>:</h1>
+        <form action="/admin/colours/edit/{{ id }}" method="POST" id="">
+            <label id="title" for="colourName">Colour Name:</label>
+            <input type="text" class="colourName" name="colourName" value="{{ name }}" required/>
+
+            <div class="gap"></div>
+
+            <label id="title" for="colourHex">Colour Hex:</label>
+            <input type="color" id="colourHex" name="colourHex" value="{{ hex }}" required>
+
+            <div class="gap"></div>
+
+            <input class="submit" type="submit" value="Save" id="submit" />
+            <a class="cancel" href="/admin">Cancel</a>
+        </form>
+    </div>
+    {% endif %}
+{% endblock %}

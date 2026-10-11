@@ -1,0 +1,15 @@
+{% extends uitemplate %}
+
+{% block title %}Yellow Submarine - Uploadimage{% endblock %}
+
+{% block content %}
+        <div id="Colourform">
+            <h1>Upload image:</h1>
+            <form method="post" enctype="multipart/form-data">
+              <input type="file" id="imageUpload" name="image" accept="image/*" required/>
+
+              <input class="submit" type="submit" value="Upload" id="submit" />
+              <a class="cancel" href="/admin">Cancel</a>
+            </form>
+        </div>
+{% endblock %}
