@@ -47,7 +47,22 @@ def admin():
                 "extradata" : product[4],
                 "variants" : [],
                 "images" : [],
+                "groups" : {
+                    "sport" : [],
+                    "vibe" : [],
+                    "category" : []
+                },
             }
+
+            for groupings, grouparray  in productobject["groups"].items():
+                for variant in cursor.execute(f"""
+                    SELECT {groupings}.name
+                    FROM {groupings}product
+                    INNER JOIN {groupings} ON {groupings}product.{groupings}id = {groupings}.id
+                    WHERE productid = {product[0]}
+                    """).fetchall():
+                        grouparray.append(variant[0])
+
 
             for variant in cursor.execute(f"""
                 SELECT colour.id, colour.name, colour.hex, variant.price

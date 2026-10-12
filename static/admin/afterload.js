@@ -48,10 +48,12 @@ function login() {
 function descriptioncontent() {
   try {
 
+    marked.use({ breaks: true, gfm: true });
+
     const allDescriptions = document.querySelectorAll('.descriptioncontent');
 
     allDescriptions.forEach(element => {
-        element.innerHTML = marked.parse(element.textContent);
+      element.innerHTML = marked.parse(JSON.parse(`"${element.textContent}"`));
     });
 
   } catch {
@@ -129,13 +131,13 @@ function productExtradata() {
           <div class="gap"></div>
 
           <label id="title" for="extraDescription">Extra Description:</label>
-          <textarea name="extratDescription" id="extraDescription" rows="8">You can use markdown</textarea>
+          <textarea name="extratDescription" class="extraDescription" rows="8">You can use markdown</textarea>
 
 
           <div class="gap"></div>
 
           <label id="title" for="extraHex">Extra Color:</label>
-          <input type="color" id="extraHex" name="extraHex" value="#ffffff">
+          <input type="color" class="extraHex" name="extraHex" value="#ffffff">
 
            <div class="gap"></div>
 
@@ -293,10 +295,9 @@ function colourSelector() {
             <a class="cancel remove">Delete</a>
         </form>` );
 
+      document.querySelector("#imageColor").insertAdjacentHTML("beforeend", `<option id="ColourOption_${dbid}" value="Colour_${dbid}">${colourName}</option>`)
 
       document.querySelector(`#variant_${id}`).addEventListener('change', (event) => {
-        console.log(`change #variant_${id}`)
-        console.log(event)
         if (event.target.value == "gendered") {
           document.querySelector(`#variant_${id} .typeF`).classList.remove('hidden');
           document.querySelector(`#variant_${id} .typeM`).classList.remove('hidden');
@@ -334,6 +335,7 @@ function colourSelector() {
           colourIDfromEL = event.currentTarget.parentElement.getAttribute('data-dbid');
           document.querySelector(`#DBcolourId_${colourIDfromEL}`).classList.remove('hidden');
           element.parentElement.remove()
+          document.querySelector(`ColourOption_${dbid}`).remove()
         } catch { }
       });
 
@@ -424,25 +426,115 @@ function productImage() {
 }
 
 
-function htmxOnchange() {
-  document.body.addEventListener('htmx:afterSwap', (event) => {
-    console.log("HTMX content has been swapped into the DOM!", event.detail);
-  });
 
-  document.body.addEventListener('htmx:afterSettle', (event) => {
-    console.log("HTMX request and DOM settling are fully done!");
+function saveproduct() {
 
-    // You can run your query selector logic safely here instead of timeouts:
-    let usededid = [];
-    document.querySelectorAll('.variant').forEach(variant => {
-      usededid.push(variant.getAttribute("data-dbid"));
+  try {
+
+    document.querySelector("#productsubmit").addEventListener("click", (event) => {
+
+      const productName = document.querySelector("#productName").value
+      const productType = document.querySelector("#productType").value
+      let productDescription = document.querySelector("#productDescription").value
+      if (productDescription == 'You can use markdown like *bold*,\n#H1\n#H2\n#H3,\nect.\n                ') {
+        productDescription = ""
+      }
+
+
+      productobject = {
+        "name": productName,
+        "type": productType,
+        "description": productDescription,
+        "extradata": [],
+        "variants": [],
+        "images": [],
+        "groups": {
+          "sport": [],
+          "vibe": [],
+          "category": []
+        },
+      }
+
+
+      document.querySelectorAll("#productExtradata form").forEach((el) => {
+        extradata = {
+          "name": el.querySelector(".extraName").value,
+          "colour": el.querySelector(".extraHex").value,
+          "description": el.querySelector(".extraDescription").value,
+        }
+
+        if (extradata = { name: '', colour: '#ffffff', description: 'You can use markdown' }) {
+          return;
+        }
+
+        productobject[extradata].push(extradata)
+      })
+
+      document.querySelectorAll(".variant").forEach((el) => {
+        variantobject = {
+          "colourID": el.getAttribute("data-dbid"),
+          "price": el.querySelector(".variantPrice").value,
+          "M": [],
+          "W": [],
+          "U": [],
+          "size": [],
+        }
+
+        el.querySelectorAll(".typeM input").forEach((el) => {
+          if (el.value = 'on') {
+            variantobject["M"].push(parseInt(el.getAttribute("data-text")))
+          }
+        })
+
+        el.querySelectorAll(".typeW input").forEach((el) => {
+          if (el.value = 'on') {
+            variantobject["W"].push(parseInt(el.getAttribute("data-text")))
+          }
+        })
+
+        el.querySelectorAll(".typeU input").forEach((el) => {
+          if (el.value = 'on') {
+            variantobject["U"].push(parseInt(el.getAttribute("data-text")))
+          }
+        })
+
+        el.querySelectorAll(".typeS input").forEach((el) => {
+          if (el.value = 'on') {
+            variantobject["size"].push(parseInt(el.getAttribute("data-text")))
+          }
+        })
+
+        productobject["variants"].push(variantobject)
+      });
+
+
+
+      Array.from(document.querySelector("#productSport").selectedOptions).forEach((el) => {
+        productobject["groups"]["sport"].push(parseInt(el.value.replace("Sport_", "")))
+      });
+
+      Array.from(document.querySelector("#productCategory").selectedOptions).forEach((el) => {
+        productobject["groups"]["category"].push(parseInt(el.value.replace("Category__", "")))
+      });
+
+      Array.from(document.querySelector("#productVibe").selectedOptions).forEach((el) => {
+        productobject["groups"]["vibe"].push(parseInt(el.value.replace("Vibe__", "")))
+      });
+
+      document.querySelectorAll("#productImage form").forEach((el) => {
+        image = {
+          "file": new URL(el.querySelector("img").src).pathname.replace("/static/photos/", ""),
+          "colourID": el.querySelector("select").value.replace("Colour_", ""),
+        }
+        productobject["images"].push(image)
+      })
+
+      console.log(productobject)
     });
-    usededid.forEach(id => {
-      const el = document.querySelector(`#DBcolourId_${id}`);
-      if (el) el.classList.add("hidden");
-    });
-  });
+
+  } catch { }
 }
+
 
 
 htmxOnchange()
@@ -454,3 +546,4 @@ newproductVariant()
 colourSelector()
 productExtradata()
 productImage()
+saveproduct()

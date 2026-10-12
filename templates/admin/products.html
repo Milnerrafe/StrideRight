@@ -4,15 +4,7 @@
 
 {% block content %}
     {% if action == "new" %}
-        <div id="imageColor" class="hidden">
-            {% for colours in data["colours"] %}
-                {% if colours["hex"] == "None" and colours["name"] == "None" %}
-                {% else %}
-                  <option value="Colour_{{ colours["id"] }}">{{ colours["name"] }}</option>
-                {% endif %}
-            {% else %}
-            {% endfor %}
-        </div>
+        <div id="imageColor" class="hidden"></div>
         <div id="Colourform">
             <div id="Productform">
             <h1>New Product:</h1>
@@ -95,7 +87,7 @@ ect.
                     {% for sport in data["sports"] %}
                         {% if sport["name"] == "None" %}
                         {% else %}
-                            <option value="Sport_{{ sport["id"] }}">{{ sport["icon"] }}{{ sport["name"] }}</option>
+                            <option value="Sport_{{ sport["id"] }}">{{ sport["name"] }}</option>
                         {% endif %}
                     {% else %}
                     {% endfor %}
@@ -109,7 +101,7 @@ ect.
                     {% for vibe in data["vibes"] %}
                         {% if vibe["name"] == "None" %}
                         {% else %}
-                            <option value="Vibe_{{ vibe["id"] }}">{{ vibe["icon"] }}{{ vibe["name"] }}</option>
+                            <option value="Vibe_{{ vibe["id"] }}">{{ vibe["name"] }}</option>
                         {% endif %}
                     {% else %}
                     {% endfor %}
@@ -123,7 +115,7 @@ ect.
                     {% for category in data["categories"] %}
                         {% if category["name"] == "None" %}
                         {% else %}
-                            <option value="Category_{{ category["id"] }}">{{ category["icon"] }}{{ category["name"] }}</option>
+                            <option value="Category_{{ category["id"] }}">{{ category["name"] }}</option>
                         {% endif %}
                     {% else %}
                     {% endfor %}
@@ -145,7 +137,7 @@ ect.
 
                 <div class="gap"></div>
 
-                <button class="submit" id="submit" >Save</button>
+                <button class="submit" id="productsubmit" >Save</button>
                 <a class="cancel" href="/admin">Cancel</a>
             </div>
         </div>

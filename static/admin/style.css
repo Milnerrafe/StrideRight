@@ -10,6 +10,15 @@
   src: url(/static/admin/yellowsubmarine.woff2) format(woff2);
 }
 
+@font-face {
+  font-family: 'SF Pro';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 1 1000;
+  font-stretch: 30% 150%;
+  src: url(/static/sf-pro.woff2) format('woff2-variations');
+}
+
 html {
     font-family: "SF Pro";
 }
@@ -177,6 +186,13 @@ header button:active {
     overflow-y: auto;
     text-align: left;
     vertical-align: top;
+}
+
+.productstable .group {
+    overflow-y: auto;
+    text-align: left;
+    vertical-align: top;
+    font-size: 12px;
 }
 
 .productstable p, h1, h3, h3, h4, h5  {
@@ -672,6 +688,11 @@ header button:active {
     font-size: 24px;
 }
 
+.submit {
+    height: 40px;
+    font-size: 24px;
+}
+
 .whichGroups option{
     padding: 10px;
     display: flex;
@@ -690,10 +711,12 @@ header button:active {
     margin: 0;
     font: inherit;
     color: currentColor;
-    display: flex;
+    display: block;
     width: 24px;
     background-color: #9F9F9F;
     height: 24px;
+    display: inline-block;
+
 
     border-radius: 0.15em;
     transform: translateY(-0.075em);
@@ -709,7 +732,6 @@ header button:active {
     color: #fff;
     background-color: #0079F2;
     content: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguNjI1IDE2LjkwNjJDOC4xNDA2MiAxNi45MDYyIDcuNzM2OTggMTYuNzEzNSA3LjQxNDA2IDE2LjMyODFMMy4zODI4MSAxMS40NDUzQzMuMjQyMTkgMTEuMjgzOSAzLjE0MzIzIDExLjEyNzYgMy4wODU5NCAxMC45NzY2QzMuMDI4NjUgMTAuODI1NSAzIDEwLjY2OTMgMyAxMC41MDc4QzMgMTAuMTM4IDMuMTIyNCA5LjgzMzMzIDMuMzY3MTkgOS41OTM3NUMzLjYxNzE5IDkuMzQ4OTYgMy45Mjk2OSA5LjIyNjU2IDQuMzA0NjkgOS4yMjY1NkM0LjcyMTM1IDkuMjI2NTYgNS4wNjc3MSA5LjM5NTgzIDUuMzQzNzUgOS43MzQzOEw4LjU5Mzc1IDEzLjc1NzhMMTQuOTc2NiAzLjY3MTg4QzE1LjEzOCAzLjQyNzA4IDE1LjMwNDcgMy4yNTUyMSAxNS40NzY2IDMuMTU2MjVDMTUuNjUzNiAzLjA1MjA4IDE1Ljg2OTggMyAxNi4xMjUgM0MxNi41IDMgMTYuODA5OSAzLjExOTc5IDE3LjA1NDcgMy4zNTkzOEMxNy4yOTk1IDMuNTk4OTYgMTcuNDIxOSAzLjkwMTA0IDE3LjQyMTkgNC4yNjU2MkMxNy40MjE5IDQuNDAxMDQgMTcuMzk4NCA0LjU0MTY3IDE3LjM1MTYgNC42ODc1QzE3LjMwNDcgNC44MzMzMyAxNy4yMzE4IDQuOTg0MzggMTcuMTMyOCA1LjE0MDYyTDkuODU5MzggMTYuMjczNEM5LjU3MjkyIDE2LjY5NTMgOS4xNjE0NiAxNi45MDYyIDguNjI1IDE2LjkwNjJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K");
-    content: "􀆅"
 }
 
 textarea {

@@ -17,7 +17,8 @@
             <tr>
               <th scope="col" class="tiny">ID</th>
               <th scope="col" class="small">Name</th>
-              <th scope="col" class="small">Type</th>
+              <th scope="col" class="tiny">Type</th>
+              <th scope="col" class="small">Groups</th>
               <th scope="col" class="medium">Description</th>
               <th scope="col" class="small">Extra Data</th>
               <th scope="col" class="medium">Colors, Sizes, Price</th>
@@ -31,9 +32,35 @@
                     <td class="id center">{{ product["id"] }}</td>
                     <td class="name center">{{ product["name"] }}</td>
                     <td class="type center">{{ product["type"] }}</td>
+                    <td class="group">
+                        {% if product["groups"]["sport"] %}
+                            <b>Sports:</b>
+                                {% for sport in product["groups"]["sport"] %}
+                                    {{ sport }}
+                                {% endfor %}
+                            <br><br>
+                        {% endif %}
+
+                        {% if product["groups"]["vibe"] %}
+                            <b>Vibes:</b>
+                                {% for vibe in product["groups"]["vibe"] %}
+                                    {{ vibe }}
+                                {% endfor %}
+                            <br><br>
+                        {% endif %}
+
+                        {% if product["groups"]["category"] %}
+                            <b>Categories:</b>
+                            {% for category in product["groups"]["category"] %}
+                                {{ category }}
+                            {% endfor %}
+                            <br><br>
+                        {% endif %}
+
+                    </td>
                     <td class="description">
                         <div class="container">
-                            <div class="descriptioncontent">{{ product["description"] }}</div>
+                            <div class="descriptioncontent">{% if product["description"] %}{{ product["description"] }}{% else %}**None**{% endif %}</div>
                         </div>
                     </td>
                     <td class="extra-data">{{ product["extradata"] }}</td>
@@ -141,7 +168,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <th scope="row" colspan="7">Number of Products:</th>
+              <th scope="row" colspan="8">Number of Products:</th>
               <td>{{ data["products"] | length }}</td>
             </tr>
           </tfoot>
