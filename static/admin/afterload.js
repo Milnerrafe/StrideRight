@@ -529,7 +529,19 @@ function saveproduct() {
         productobject["images"].push(image)
       })
 
-      console.log(productobject)
+      fetch("/admin/product/new", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(productobject)
+      })
+      .then(response => {
+          return response.text();
+      })
+      .then(htmlError => {
+          document.querySelector("body").innerHTML = htmlError;
+      })
     });
 
   } catch { }
@@ -537,7 +549,6 @@ function saveproduct() {
 
 
 
-htmxOnchange()
 login()
 descriptioncontent()
 newColour()

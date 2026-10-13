@@ -147,7 +147,7 @@
                     <td class="images">
                         <div class="container">
                             {% for image in product["images"] %}
-                                <img src="{{ image }}" >
+                                <img src="{{ url_for('static', filename='photos/' ~ image) }}" >
                             {% else %}
                                 <h2 class="nocontent">No Images for this product</h2>
                             {% endfor %}

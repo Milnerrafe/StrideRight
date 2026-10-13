@@ -296,21 +296,53 @@ def products(action, id=None):
             if (action in neededid and id) or (action not in neededid):
                 if request.method == 'POST':
                     if action == "new":
-                        name = request.form.get('colourName')
-                        hex = request.form.get('colourHex')
+                        try:
+                            userdata = request.get_json()
+                            productid = cursor.execute(f"""
+                               INSERT INTO product ("name", "type", "description", "extradata")
+                               VALUES ('{userdata["name"]}', '{userdata["type"]}', '{userdata["description"]}', '{userdata["extradata"]}')
+                               RETURNING id;
+                                """).fetchall()[0][0]
 
-                        if name and hex:
-                            try:
+                            for variant in userdata["variants"]:
+                               colourID = variant["colourID"]
+                               price = variant["price"]
+
+                               genders = ["M", "W", "U", "size"]
+
+                               for gender in genders:
+                                   for size in variant[gender]:
+                                       if size:
+                                           cursor.execute(f"""
+                                               INSERT INTO variant ("productid", "colourid", "size", "gender", "price")
+                                               VALUES ({productid}, {colourID}, '{size}', '{gender}', '{price}');
+                                                """)
+
+                            for group, groupids in userdata["groups"].items():
+                                for groupid in groupids:
+                                    if groupid:
+                                        cursor.execute(f"""
+                                            INSERT INTO {group}product ("{group}id", "productid")
+                                            VALUES ({groupid}, {productid});
+                                             """)
+
+
+                            for image in userdata["images"]:
+                                fileurl = image["file"]
+                                colourid = image["colourID"]
                                 cursor.execute(f"""
-                                    INSERT INTO colour ("name", "hex")
-                                    VALUES ("{name}", "{hex}");
-                                    """)
-                            except sqlite3.Error as e:
-                                return render_template("admin/error.html", logedin=True, error=f"When trying to add your color, SQLite threw this error: {e}")
+                                    INSERT INTO productimage ("productid", "colourid", "file")
+                                    VALUES ({productid}, {colourid}, '{fileurl}');
+                                     """)
 
-                            return redirect(url_for('admin', _anchor=f""":~:text={hex}"""))
-                        else:
-                            return render_template("admin/error.html", logedin=True, error="You did not provide values for name or hex.")
+                            return redirect(url_for('admin'))
+                        except sqlite3.Error as e:
+                            print(e)
+                            return render_template("admin/error.html", logedin=True, error=e)
+                        except Exception as e:
+                            print(e)
+                            return render_template("admin/error.html", logedin=True, error=e)
+
 
                     if action == "delete":
                         sure = request.form.get('sure')
